@@ -18,7 +18,6 @@ place = [ '', 'thousand', 'million', 'billion', 'trillion',
 
 def to_tens(val):
 	v = str(val)
-	x = int(v[0])
 	ret = ''
 
 	if val < 10:
@@ -28,7 +27,7 @@ def to_tens(val):
 	elif val < 20:
 		ret = teens[int(v[1])-1]
 	elif val < 100:
-		ret = tens[x-1] + ' ' + ones[int(v[1])]
+		ret = tens[int(v[0])-1] + ' ' + ones[int(v[1])]
 
 	return ret
 
@@ -39,8 +38,8 @@ def to_hundreds(val):
 	if val < 100:
 		ret = to_tens(val)
 	elif val < 1000:
-		y = int(v[-2:])
 		x = int(v[0:-2])
+		y = int(v[-2:])
 		ret = to_tens(x) + ' hundred'
 		if y != 0:
 			ret += ' ' + to_tens(y)
@@ -52,7 +51,7 @@ def num2word(val):
 	iVal = int(val)
 	length = len(val)
 	places = length // 3
-	if length % 3 == 1 or length % 3 == 2:
+	if length % 3 != 0:
 		places += 1
 
 	for i in range(places):
