@@ -1,6 +1,6 @@
 ones = [ 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine' ]
 tens = [ 'ten', 'twenty', 'thirty', 'fourty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety' ]
-teens = [ 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen' ]
+teens = [ 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen' ]
 place = [ '', 'thousand', 'million', 'billion', 'trillion',
 		  'quadrillion', 'quintillion', 'sextillion', 'septillion', 'octillion',
 		  'nonillion', 'decillion', 'undecillion', 'duodecillion', 'tredecillion',
@@ -21,14 +21,14 @@ def to_tens(val):
 	x = int(v[0])
 	ret = ''
 
-	if val < 20:
-		tweens = ones + teens
-		ret = tweens[val]
+	if val < 10:
+		ret = ones[val]
 	elif val % 10 == 0:
 		ret = tens[val//10-1]
+	elif val < 20:
+		ret = teens[int(v[1])-1]
 	elif val < 100:
-		y = int(v[1])
-		ret = tens[x-1] + ' ' + ones[y]
+		ret = tens[x-1] + ' ' + ones[int(v[1])]
 
 	return ret
 
@@ -51,14 +51,14 @@ def num2word(val):
 	ret = ''
 	iVal = int(val)
 	length = len(val)
-	l = length // 3
+	places = length // 3
 	if length % 3 == 1 or length % 3 == 2:
-		l += 1
+		places += 1
 
-	for i in range(l):
+	for i in range(places):
 		x = int(val[-3:])
 		w = to_hundreds(x)
-		if l == 1:
+		if places == 1:
 			ret = w
 		elif w != 'zero':
 			ret = w + ' ' + place[i] + ' ' + ret
@@ -66,7 +66,7 @@ def num2word(val):
 
 	return ret
 
-val = input("Enter number:")
+val = input("Enter number: ")
 val = num2word(val)
 
 print(val)
